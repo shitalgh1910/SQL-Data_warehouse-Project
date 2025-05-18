@@ -1,0 +1,37 @@
+SELECT * FROM bronze.erp_px_cat_g1v2;
+/*SELECT COUNT(*),id
+FROM bronze.erp_px_cat_g1v2
+GROUP BY id
+HAVING COUNT(*)>1 OR id IS NULL;
+-- we dont have any duplicate or null*/
+
+-- checking if it matches the 
+SELECT id from bronze.erp_px_cat_g1v2
+WHERE id  NOT in (SELECT cat_id from silver.crm_prd_info);
+
+
+-- moving into the next column checking for unwanted space
+SELECT TRIM(cat)
+from  bronze.erp_px_cat_g1v2
+WHERE TRIM(cat)!=cat;
+
+-- check if any null values
+SELECT DISTINCT cat
+FROM  bronze.erp_px_cat_g1v2
+where cat is NULL;
+-- there are no null values
+
+-- CHECKING ANY UNWANTED SPACES FOR SUBCAT
+SELECT TRIM(subcat)
+from  silver.erp_px_cat_g1v2
+WHERE TRIM(subcat)!=subcat;
+-- all good
+SELECT  subcat
+FROM  silver.erp_px_cat_g1v2
+where subcat is NULL;
+
+SELECT COUNT(*),maintenance
+FROM  silver.erp_px_cat_g1v2
+GROUP BY maintenance;
+
+select * from silver.erp_px_cat_g1v2;
